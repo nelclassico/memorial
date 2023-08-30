@@ -1,0 +1,10 @@
+version: '3'
+
+services:
+  app:
+    build: .
+    image: registry.mpce.mp.br/memorial:latest
+    env_file:
+      - .env
+    ports:
+      - 12002:80
