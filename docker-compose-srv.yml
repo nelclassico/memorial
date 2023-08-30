@@ -9,8 +9,8 @@ services:
     environment:
       WORDPRESS_CONFIG_EXTRA: |
 
-        define('WP_HOME', 'http://memorial-homolog.mpce.mp.br');
-        define('WP_SITEURL', 'http://memorial-homolog.mpce.mp.br');
+        define('WP_HOME', 'https://memorial-homolog.mpce.mp.br');
+        define('WP_SITEURL', 'https://memorial-homolog.mpce.mp.br');
         define('FORCE_SSL_ADMIN', true);
 
     volumes:
