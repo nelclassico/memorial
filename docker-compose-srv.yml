@@ -6,5 +6,14 @@ services:
     image: registry.mpce.mp.br/memorial:latest
     env_file:
       - .env
+    environment:
+      WORDPRESS_CONFIG_EXTRA: |
+
+        define('WP_HOME', 'http://memorial-homolog.mpce.mp.br');
+        define('WP_SITEURL', 'http://memorial-homolog.mpce.mp.br');
+        define('FORCE_SSL_ADMIN', true);
+
+    volumes:
+      - /var/www/memorial:/var/www/html
     ports:
       - 12002:80
