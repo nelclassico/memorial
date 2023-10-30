@@ -57,11 +57,17 @@
 						<?php
 						// Array selecionando 4 posts para o carrossel:
 						$args = array(
-							'post_type' => 'post', // Tipo de conteúdo
-							'category_name' => 'slider', // Categoria dos posts, escolha a que quiser
-							'posts_per_page' => 4, // Quantidade de posts no carrossel
-							'order' => 'DESC' // Ordenar do mais recente para o menos recente
+							'post_type' => 'page',
+							'meta_query' => array(
+								array(
+									'key' => 'categoria_carrossel',
+									'value' => 'slider', // Substitua 'slider' pela categoria desejada
+								)
+							),
+							'posts_per_page' => 4,
+							'order' => 'DESC'
 						);
+
 						$catquery = new WP_Query($args);
 						if ($catquery->have_posts()) :
 							?>
@@ -80,8 +86,8 @@
 													<?php the_post_thumbnail('full', array('class' => 'd-block w-100')); ?>
 												</a>
 											<?php endif; ?>
-											<div class="carousel-caption d-md-block position-absolute ml-0 caption-campanhas d-flex align-items-center justify-content-center text-start">
-												<h2><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>" class="text-white"><?php the_title(); ?> </a></h2>
+											<div class="carousel-caption d-md-block position-absolute ml-0 caption-campanhas d-flex align-items-center justify-content-center text-center">
+												<h2 class="display-5"><a href="<?php the_permalink(); ?>" rel="bookmark" title="<?php the_title_attribute(); ?>" class="text-white"><?php the_title(); ?> </a></h2>
 												<p><?php the_excerpt(); ?></p>
 											</div>
 										</div>

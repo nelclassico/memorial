@@ -1,0 +1,36 @@
+variables:
+  IMAGE_NAME: "registry.mpce.mp.br/$CI_PROJECT_NAME"
+  COMPOSE_DIR: "/etc/docker_apps/$CI_PROJECT_NAME"
+
+homol:build_image:
+  stage: build
+  tags:
+  - build
+  - exec_shell
+  - docker
+  script:
+  - docker build -t $IMAGE_NAME:latest .
+  - docker push $IMAGE_NAME:latest
+
+homol:deploy:
+  stage: deploy
+  tags:
+  - deploy_docker
+  - deploy_homolog
+  script:
+  - if [ ! -d $COMPOSE_DIR ]; then mkdir $COMPOSE_DIR; fi
+  - cp docker-compose-srv.yml $COMPOSE_DIR/docker-compose.yml
+  - docker-compose -f $COMPOSE_DIR/docker-compose.yml pull
+  - docker-compose -f $COMPOSE_DIR/docker-compose.yml up -d
+
+prod:deploy:
+  stage: deploy
+  tags:
+  - deploy_docker
+  - deploy_prod
+  when: manual
+  script:
+  - if [ ! -d $COMPOSE_DIR ]; then mkdir $COMPOSE_DIR; fi
+  - cp docker-compose-srv.yml $COMPOSE_DIR/docker-compose.yml
+  - docker-compose -f $COMPOSE_DIR/docker-compose.yml pull
+  - docker-compose -f $COMPOSE_DIR/docker-compose.yml up -d

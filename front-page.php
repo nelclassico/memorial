@@ -63,8 +63,7 @@ if ($secao_sobre_ativada) {
             </div>
         </div>
         <div class="col-lg-6 wow fadeIn aos-init aos-animate" data-wow-delay="0.5s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
-            <div class="section-title">
-                <p class="fs-5 fw-medium fst-italic text-primary">Sobre o Memorial</p>
+            <div class="section-title pt-4">
                 <h2 class="display-6"><?php echo get_theme_mod('custom_home_title'); ?></h2>
             </div>
             <div class="row g-3 mb-4">
@@ -110,7 +109,7 @@ if ($secao_decretos_ativada) {
 							if (!empty($title)) {
 						?>
 								<li class="accordion-button">
-									<a data-bs-toggle="collapse" class="collapse collapsed" data-bs-target="#accordion-list-<?php echo $i; ?>" aria-expanded="false"><span><?php echo $i; ?></span> <?php echo $title; ?></a>
+									<a data-bs-toggle="collapse" class="collapse collapsed" data-bs-target="#accordion-list-<?php echo $i; ?>" aria-expanded="false"><?php echo $title; ?></a>
 								</li>
                 <div id="accordion-list-<?php echo $i; ?>" class="accordion-collapse collapse" data-bs-parent=".accordion-list">
                   <div class="accordion-body">
@@ -237,7 +236,7 @@ if ($acervo_ativada) {
         <!-- Conteúdo da galeria será adicionado aqui -->
         <div id="galeria-isotope">
           <div class="galeria-filtro">
-              <button data-filter="*">Todas</button>
+              <button class="todas active" data-filter="*">Todas</button>
               <?php
               // Recupere todas as categorias de galeria
               $categorias = get_terms('categoria-galeria');
@@ -270,41 +269,68 @@ if ($acervo_ativada) {
                           $categoria_classes .= $categoria->slug . ' ';
                       }
 
-                      // Verifique se a categoria atual é diferente de "Todas"
-                      if ($atts['categoria'] !== '*') {
-                          echo '<div id="gallery-lightbox" class="galeria-item ' . $categoria_classes . '" data-toggle="modal" data-target="#lightbox">';
-                          //echo '<h2>' . get_the_title() . '</h2>';
-                          $conteudo = get_the_content();
-
-                        // Use uma expressão regular para encontrar todas as tags <img>
-                        preg_match_all('/<img[^>]+>/i', $conteudo, $imagens);
-
-                        // Itera sobre as imagens encontradas
-                        foreach ($imagens[0] as $imagem) {
-                            // Adicione os atributos personalizados à imagem
-                            $imagem_com_atributos = str_replace('<img', '<img data-target="#indicators" data-slide-to="0"', $imagem);
-                            echo $imagem_com_atributos;
-                        }
-                          //echo '<div class="galeria-conteudo">' . get_the_content() . '</div>';
-                          echo '</div>';
-                      } else {
-                          // Se a categoria for "Todas", não exiba o título
-                          echo '<div class="galeria-item ' . $categoria_classes . '" data-toggle="modal" data-target="#lightbox">';
-                          // Obtém o conteúdo do post
-                        $conteudo = get_the_content();
-
-                        // Use uma expressão regular para encontrar todas as tags <img>
-                        preg_match_all('/<img[^>]+>/i', $conteudo, $imagens);
-
-                        // Itera sobre as imagens encontradas
-                        foreach ($imagens[0] as $imagem) {
-                            // Adicione os atributos personalizados à imagem
-                            $imagem_com_atributos = str_replace('<img', '<img data-target="#indicators" data-slide-to="0"', $imagem);
-                            echo $imagem_com_atributos;
-                        }
-                          //echo '<div class="galeria-conteudo">' . get_the_content() . '</div>';
-                          echo '</div>';
+                      // Defina manualmente $atts como um array vazio se não estiver definido
+                      if (!isset($atts)) {
+                          $atts = array();
                       }
+
+                      if (isset($atts['categoria']) && $atts['categoria'] !== '*') {
+                        echo '<div class="galeria-item ' . $categoria_classes . ' isotope-item galeria-todas" data-category="' . $categoria_classes . '">';
+
+                        $conteudo = get_the_content();
+                        preg_match_all('/<img[^>]+>/i', $conteudo, $imagens);
+
+                        // Inicialize um contador para rastrear o número de imagens exibidas
+                        $numImagensExibidas = 0;
+
+                        // Defina o limite de imagens a serem exibidas por categoria
+                        $limiteImagens = 8;
+
+                        // Inicialize um contador para criar IDs únicos para cada galeria
+                        $galeria_id = 'galeria-' . get_the_ID();
+
+                        foreach ($imagens[0] as $indice => $imagem) {
+                            if ($numImagensExibidas < $limiteImagens) {
+                                // Use uma expressão regular para obter a URL da imagem
+                                preg_match('/src="([^"]+)"/', $imagem, $match);
+                                $imagem_url = isset($match[1]) ? $match[1] : '';
+
+                                // Crie um link para cada imagem dentro da galeria
+                                echo '<a href="' . esc_url($imagem_url) . '" data-lightbox="' . esc_attr($galeria_id) . '">';
+                                $imagem_com_atributos = str_replace('<img', '<img class="galeria-imagem" data-target="#indicators" data-slide-to="' . esc_attr($indice) . '"', $imagem);
+                                echo $imagem_com_atributos;
+                                echo '</a>';
+
+                                $numImagensExibidas++;
+                            }
+                        }
+
+                        echo '</div>';
+                    }
+                     else {
+                      echo '<div class="galeria-item ' . $categoria_classes . ' isotope-item" data-category="' . $categoria_classes . '">';
+
+                      $conteudo = get_the_content();
+                      preg_match_all('/<img[^>]+>/i', $conteudo, $imagens);
+
+                      // Inicializa um contador para criar IDs únicos para cada galeria
+                      $galeria_id = 'galeria-' . get_the_ID();
+
+                      foreach ($imagens[0] as $indice => $imagem) {
+                          // Use uma expressão regular para obter a URL da imagem
+                          preg_match('/src="([^"]+)"/', $imagem, $match);
+                          $imagem_url = isset($match[1]) ? $match[1] : '';
+
+                          // Crie um link para cada imagem dentro da galeria
+                          echo '<a href="' . esc_url($imagem_url) . '" data-lightbox="' . esc_attr($galeria_id) . '">';
+                          $imagem_com_atributos = str_replace('<img', '<img class="galeria-imagem" data-target="#indicators" data-slide-to="' . esc_attr($indice) . '"', $imagem);
+                          echo $imagem_com_atributos;
+                          echo '</a>';
+                      }
+                      ?>
+                    <?php
+                      echo '</div>';
+                    }
                   }
                   ?>
 

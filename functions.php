@@ -371,10 +371,6 @@ add_shortcode('linha_do_tempo', 'linha_do_tempo_shortcode');
 
 
 
-
-
-
-
 // Personalizar o estilo do TinyMCE (Editor Visual)
 function personalizar_estilo_tinymce($in) {
     $in['content_css'] = get_template_directory_uri() . '/custom-editor-style.css'; // Substitua pelo caminho correto do seu arquivo CSS
@@ -382,14 +378,6 @@ function personalizar_estilo_tinymce($in) {
     return $in;
 }
 add_filter('tiny_mce_before_init', 'personalizar_estilo_tinymce');
-
-
-
-
-
-
-
-
 
 
 
@@ -481,7 +469,7 @@ add_action('init', 'criar_taxonomia_categoria_galeria');
 
 function shortcode_galeria($atts) {
     $atts = shortcode_atts(array(
-        'categoria' => 'todas', // Categoria padrão
+        'categoria' => '*', // Categoria padrão
     ), $atts);
 
     $args = array(
@@ -590,9 +578,42 @@ function register_footer_widgets() {
 add_action('widgets_init', 'register_footer_widgets');
 
 
+function carregar_owl_carousel() {
+    wp_enqueue_script('owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/2.3.4/owl.carousel.min.js', array('jquery'), '2.3.4', true);
+    wp_enqueue_style('owl-carousel', 'https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/2.3.4/owl.carousel.min.css');
+}
 
+add_action('wp_enqueue_scripts', 'carregar_owl_carousel');
 
+function adicionar_metabox_categoria_carrossel() {
+    add_meta_box(
+        'categoria_carrossel',
+        'Categoria para o Carrossel',
+        'exibir_metabox_categoria_carrossel',
+        'page',
+        'side',
+        'default'
+    );
+}
 
+function exibir_metabox_categoria_carrossel($post) {
+    $categoria_carrossel = get_post_meta($post->ID, 'categoria_carrossel', true);
+    ?>
+    <label for="categoria_carrossel">Selecione a categoria para o carrossel:</label>
+    <input type="checkbox" id="categoria_carrossel" name="categoria_carrossel" value="slider" <?php checked($categoria_carrossel, 'slider'); ?>>
+    <label for="categoria_carrossel">Slider</label>
+    <?php
+}
+
+function salvar_metabox_categoria_carrossel($post_id) {
+    if (defined('DOING_AUTOSAVE') && DOING_AUTOSAVE) return;
+    if (isset($_POST['categoria_carrossel'])) {
+        update_post_meta($post_id, 'categoria_carrossel', sanitize_text_field($_POST['categoria_carrossel']));
+    }
+}
+
+add_action('add_meta_boxes', 'adicionar_metabox_categoria_carrossel');
+add_action('save_post', 'salvar_metabox_categoria_carrossel');
 
 
 
