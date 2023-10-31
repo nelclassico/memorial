@@ -2,7 +2,8 @@ version: '3'
 
 services:
   app:
-    build: .
+    build:
+      dockerfile: Dockerfile # Especifica o nome do Dockerfile a ser usado
     environment:
       WORDPRESS_DB_HOST: db
       WORDPRESS_DB_USER: wordpress
