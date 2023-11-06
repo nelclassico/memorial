@@ -3,10 +3,6 @@
  * For more info: https://developer.wordpress.org/themes/basics/theme-functions/
  *
  */
-define('WP_DEBUG', true);
-define('WP_DEBUG_LOG', true);
-define('WP_DEBUG_DISPLAY', false);
-@ini_set('display_errors', 0);
 
 // Theme support options
 require_once(get_template_directory().'/functions/theme-support.php');
