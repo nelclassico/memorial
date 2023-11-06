@@ -17,9 +17,11 @@ homol:deploy:
   tags:
   - deploy_docker
   - deploy_homolog
+  variables:
+    WP_HOME: "https://memorial-homolog.mpce.mp.br"
   script:
   - if [ ! -d $COMPOSE_DIR ]; then mkdir $COMPOSE_DIR; fi
-  - cp docker-compose-srv.yml $COMPOSE_DIR/docker-compose.yml
+  - envsubst < docker-compose-srv.yml > $COMPOSE_DIR/docker-compose.yml
   - docker-compose -f $COMPOSE_DIR/docker-compose.yml pull
   - docker-compose -f $COMPOSE_DIR/docker-compose.yml up -d
 
@@ -29,8 +31,10 @@ prod:deploy:
   - deploy_docker
   - deploy_prod
   when: manual
+  variables:
+    WP_HOME: "https://memorial.mpce.mp.br"
   script:
   - if [ ! -d $COMPOSE_DIR ]; then mkdir $COMPOSE_DIR; fi
-  - cp docker-compose-srv.yml $COMPOSE_DIR/docker-compose.yml
+  - envsubst < docker-compose-srv.yml > $COMPOSE_DIR/docker-compose.yml
   - docker-compose -f $COMPOSE_DIR/docker-compose.yml pull
   - docker-compose -f $COMPOSE_DIR/docker-compose.yml up -d
