@@ -342,66 +342,11 @@ $wp_customize->add_panel('front-page', array(
     }
 
 
-    // Campo para a sessão de Agendamento
-    $wp_customize->add_section('agendamento_section', array(
-        'title' => 'Agendamento',
-        'priority' => 80,
-        'panel' => 'front-page', // Associe esta subseção à seção "front-page"
-    ));
-
-     // Adicione um botão para ativar ou desativar a Seção Sobre
-     $wp_customize->add_setting('agendamento-toggle', array(
-        'default' => true, // Pode definir como "true" ou "false" para ativar ou desativar por padrão
-        'sanitize_callback' => 'wp_validate_boolean',
-    ));
-
-    $wp_customize->add_control('agendamento-toggle', array(
-        'label' => 'Ativar/Desativar Seção Agendamento',
-        'section' => 'agendamento_section',
-        'type' => 'checkbox',
-    ));
-
-    $wp_customize->add_setting('agendamento_title', array(
-        'default' => 'Entre em contato',
-        'sanitize_callback' => 'sanitize_text_field',
-    ));
-
-    $wp_customize->add_control('agendamento_title', array(
-        'label' => 'Título',
-        'section' => 'agendamento_section',
-        'type' => 'text',
-    ));
-
-     // Campo para o texto da Agendamento
-     $wp_customize->add_setting('agendamento_text', array(
-        'default' => 'Preencha o formulário para entrar em contato com a gente',
-        'sanitize_callback' => 'wp_kses_post',
-    ));
-
-    $wp_customize->add_control('agendamento_text', array(
-        'label' => 'Texto Para Call Action',
-        'section' => 'agendamento_section',
-        'type' => 'textarea',
-    ));
-
-    // Adicione um controle personalizado para inserir shortcodes
-    $wp_customize->add_setting('agendamento_shortcode', array(
-        'sanitize_callback' => 'wp_kses_post',
-    ));
-
-    $wp_customize->add_control('agendamento_shortcode', array(
-        'label' => 'Inserir Shortcode',
-        'section' => 'agendamento_section', // Substitua pela seção em que deseja exibir o controle
-        'type' => 'shortcode',
-        'description' => 'Insira aqui o shortcode que deseja usar.', // Uma descrição opcional para o controle
-    ));
-
-
 
      // Campo para a sessão de Agendamento
      $wp_customize->add_section('acervo_section', array(
         'title' => 'Acervo',
-        'priority' => 90,
+        'priority' => 80,
         'panel' => 'front-page', // Associe esta subseção à seção "front-page"
     ));
 
@@ -443,8 +388,66 @@ $wp_customize->add_panel('front-page', array(
         'type' => 'textarea',
     ));
 
+
+    // Campo para a sessão de Agendamento
+    $wp_customize->add_section('agendamento_section', array(
+        'title' => 'Agendamento',
+        'priority' => 90,
+        'panel' => 'front-page', // Associe esta subseção à seção "front-page"
+    ));
+
+     // Adicione um botão para ativar ou desativar a Seção Sobre
+     $wp_customize->add_setting('agendamento-toggle', array(
+        'default' => true, // Pode definir como "true" ou "false" para ativar ou desativar por padrão
+        'sanitize_callback' => 'wp_validate_boolean',
+    ));
+
+    $wp_customize->add_control('agendamento-toggle', array(
+        'label' => 'Ativar/Desativar Seção Agendamento',
+        'section' => 'agendamento_section',
+        'type' => 'checkbox',
+    ));
+
+    $wp_customize->add_setting('agendamento_title', array(
+        'default' => 'Entre em contato',
+        'sanitize_callback' => 'sanitize_text_field',
+    ));
+
+    $wp_customize->add_control('agendamento_title', array(
+        'label' => 'Título',
+        'section' => 'agendamento_section',
+        'type' => 'text',
+    ));
+
+     // Campo para o texto da Agendamento
+     $wp_customize->add_setting('agendamento_text', array(
+        'default' => 'Preencha o formulário para entrar em contato com a gente',
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+
+    $wp_customize->add_control('agendamento_text', array(
+        'label' => 'Texto agendamento',
+        'section' => 'agendamento_section',
+        'type' => 'textarea',
+    ));
+
+    // Adicione um controle personalizado para inserir shortcodes
+    $wp_customize->add_setting('agendamento_shortcode', array(
+        'sanitize_callback' => 'wp_kses_post',
+    ));
+
+    $wp_customize->add_control('agendamento_shortcode', array(
+        'label' => 'Inserir Shortcode',
+        'section' => 'agendamento_section', // Substitua pela seção em que deseja exibir o controle
+        'type' => 'shortcode',
+        'description' => 'Insira aqui o shortcode que deseja usar.', // Uma descrição opcional para o controle
+    ));
 }
 
 add_action('customize_register', 'custom_theme_customize_register');
+
+
+
+
 
 

@@ -360,8 +360,8 @@ if ($agendamentos_ativada) {
     // Por exemplo, seu código atual da seção Sobre pode ser colocado aqui
 ?>
 
-    <section id="contact" class="contact">
-    <div class="container aos-init aos-animate" data-aos="fade-up">
+    <section id="contact" class="contact bg-light">
+      <div class="container-xxl">
       <div class="row gx-lg-0 gy-4">
         <div class="col-lg-4">
           <div class="section-header">
