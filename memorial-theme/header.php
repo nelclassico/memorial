@@ -107,7 +107,7 @@
 						<?php else :
 								 if (has_post_thumbnail()) { ?>
 									<div class="mx-100 vh-30 d-flex justify-content-center align-items-center bg-central" style="background: rgb(38,27,21);
-										background: linear-gradient(0deg, rgba(38,27,21,0.804359243697479) 7%, rgba(20,19,17,0.3085609243697479) 47%, rgba(20,19,17,0.7763480392156863) 97%), url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>);">
+										background: linear-gradient(0deg, rgba(38,27,21,0.804359243697479) 7%, rgb(20 19 17 / 84%) 47%, rgba(20,19,17,0.7763480392156863) 97%), url(<?php echo get_the_post_thumbnail_url(get_the_ID(), 'full'); ?>);">
 										<h1 class="text-white"><?php the_title(); ?></h1>
 									</div>
 								<?php }
