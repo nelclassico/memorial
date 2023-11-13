@@ -102,16 +102,6 @@ function adicionar_scripts_e_estilos() {
 add_action('wp_enqueue_scripts', 'adicionar_scripts_e_estilos');
 
 
-function enqueue_metabox_styles() {
-    // Altere o caminho e o nome do arquivo CSS conforme necessário
-    wp_enqueue_style('metabox-styles', get_template_directory_uri() . '/assets/styles/metabox-styles.css', array(), '1.0.0', 'all'); // Aumente a prioridade aqui
-}
-
-add_action('admin_enqueue_scripts', 'enqueue_metabox_styles', 999); // Aumente a prioridade aqui
-
-
-
-
 
 // Registrar o Custom Post Type "Linha do Tempo"
 function registrar_post_type_linha() {
@@ -453,7 +443,7 @@ function criar_post_type_galeria() {
         )
     );
 }
-add_action('init', 'criar_post_type_galeria');
+add_action('init', 'criar_post_type_galeria', 20);
 
 function criar_taxonomia_categoria_galeria() {
     register_taxonomy(
@@ -600,7 +590,7 @@ function exibir_metabox_categoria_carrossel($post) {
     $categoria_carrossel = get_post_meta($post->ID, 'categoria_carrossel', true);
     ?>
     <label for="categoria_carrossel">Selecione a categoria para o carrossel:</label>
-    <input type="checkbox" id="categoria_carrossel" name="categoria_carrossel" value="slider" <?php checked($categoria_carrossel, 'slider'); ?>>
+    <input type="checkbox" id="categoria_carrossel" name="categoria_carrossel" value="slider" <?php selected($categoria_carrossel, 'slider'); ?>>
     <label for="categoria_carrossel">Slider</label>
     <?php
 }

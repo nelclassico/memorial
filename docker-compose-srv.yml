@@ -14,6 +14,8 @@ services:
         define('FORCE_SSL_ADMIN', true);
 
     volumes:
+      - /var/www/memorial/wp-content/plugins:/var/www/html/wp-content/plugins
       - /var/www/memorial/wp-content/uploads:/var/www/html/wp-content/uploads
+
     ports:
       - 12002:80
