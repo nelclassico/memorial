@@ -16,6 +16,7 @@ services:
     volumes:
       - /var/www/memorial/wp-content/plugins:/var/www/html/wp-content/plugins
       - /var/www/memorial/wp-content/uploads:/var/www/html/wp-content/uploads
+      - /var/www/memorial/wp-content/themes:/var/www/html/wp-content/themes
 
     ports:
       - 12002:80
